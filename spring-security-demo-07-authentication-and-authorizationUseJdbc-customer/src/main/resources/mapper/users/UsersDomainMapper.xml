@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.prosayj.springsecuritydemo.modules.users.mapper.UsersDomainMapper">
+    <resultMap id="BaseResultMap" type="cn.prosayj.springsecuritydemo.modules.users.domain.UsersDomain">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="enabled" jdbcType="TINYINT" property="enabled"/>
+        <result column="roles" jdbcType="VARCHAR" property="roles"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password, enabled, roles
+    </sql>
+
+    <select id="findByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

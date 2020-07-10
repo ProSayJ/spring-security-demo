@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry
+            location="C:/Users/15665/.m2/develop/ci/maven_repo/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar"/>
+    <!--location="C:/Users/15665/.m2/develop/ci/maven_repo/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar"-->
+    <!--"jdbc:mysql://127.0.0.1:3306/yinuojr_platform?serverTimezone=UTC&amp;characterEncoding=UTF-8&amp;serverTimezone=Hongkong&amp;useSSL=false"-->
+
+
+    <context id="springsecurity_demo_customer_user" defaultModelType="flat" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection
+                connectionURL="jdbc:mysql://127.0.0.1:3306/springsecurity_demo_customer_user?serverTimezone=UTC&amp;characterEncoding=UTF-8&amp;serverTimezone=Hongkong&amp;useSSL=false"
+                driverClass="com.mysql.cj.jdbc.Driver" userId="root" password="root"/>
+
+        <javaModelGenerator targetPackage="cn.prosayj.springsecuritydemo.modules.users.domain"
+                            targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper.users"
+                         targetProject="src/main/resources"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.prosayj.springsecuritydemo.modules.users.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table schema="general" tableName="users"
+               domainObjectName="UsersDomain"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" type="post"/>
+        </table>
+
+    </context>
+
+</generatorConfiguration>
