@@ -18,13 +18,13 @@
                 connectionURL="jdbc:mysql://127.0.0.1:3306/springsecurity_demo_customer_user?serverTimezone=UTC&amp;characterEncoding=UTF-8&amp;serverTimezone=Hongkong&amp;useSSL=false"
                 driverClass="com.mysql.cj.jdbc.Driver" userId="root" password="root"/>
 
-        <javaModelGenerator targetPackage="cn.prosayj.springsecuritydemo.modules.users.domain"
+        <javaModelGenerator targetPackage="cn.prosayj.authentication.modules.users.domain"
                             targetProject="src/main/java"/>
 
         <sqlMapGenerator targetPackage="mapper.users"
                          targetProject="src/main/resources"/>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.prosayj.springsecuritydemo.modules.users.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.prosayj.authentication.modules.users.mapper"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
