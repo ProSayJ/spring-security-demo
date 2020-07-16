@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * JWT 工具类
@@ -35,28 +36,26 @@ public class JWTUtils {
      */
     private static final String ISSUER = "ProSayJ";
 
-    // /**
-    //  * 默认过期时间 3600s
-    //  */
-    private static final long EXPIRATION = 3600L;
+    /**
+     * 默认过期时间秒
+     */
+    private static final long EXPIRATION = 60L;
 
-    // /**
-    //  * 选择了记住我之后的过期时间 3600s * 7
-    //  */
+    /**
+     * 选择了记住我之后的过期时间 3600s * 7
+     */
     private static final long EXPIRATION_REMEMBER = 3600L * 7;
 
     private JWTUtils() {
     }
 
     /**
-     * Description: 创建 Json Web Token
+     * 创建 Json Web Token
      *
      * @param username    {String} 用户名
      * @param rememberMe  {boolean} 是否记住我
      * @param userDetails {@link CustomUserDetails} 的实现类
-     * @return java.lang.String Json Web Token
-     * @author LiKe
-     * @date 2020-04-21 16:18:10
+     * @return String
      */
     public static String create(String username, boolean rememberMe, CustomUserDetails userDetails) {
         Map<String, Object> map = JsonUtils.toMap(userDetails);
@@ -83,25 +82,21 @@ public class JWTUtils {
                 .compact();
     }
 
-    // /**
-    //  * Description: 判断 Json Web Token 是否已经过期
-    //  *
-    //  * @param jwt Json Web Token
-    //  * @return boolean
-    //  * @author LiKe
-    //  * @date 2020-04-22 08:49:32
-    //  */
-    // public static boolean hasExpired(String jwt) {
-    //     return claims(jwt).getExpiration().before(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-    // }
+    /**
+     * 判断 Json Web Token 是否已经过期: true :已过期
+     *
+     * @param jwt jwt Json Web Token
+     * @return boolean
+     */
+    public static boolean hasExpired(String jwt) {
+        return Objects.requireNonNull(claims(jwt)).getExpiration().before(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+    }
 
     /**
-     * Description: 获得 subject
+     * 获得 subject
      *
      * @param jwt {String} Json Web Token
      * @return java.lang.String subject
-     * @author LiKe
-     * @date 2020-04-21 18:09:26
      */
     public static String subject(String jwt) {
         return claims(jwt).getSubject();
@@ -111,6 +106,12 @@ public class JWTUtils {
         return JsonUtils.toBean(JsonUtils.toJsonString(claims(jwt)), CustomUserDetails.class);
     }
 
+    /**
+     * 获取jwt 中存储的主要信息
+     *
+     * @param jwt jwt
+     * @return Claims
+     */
     private static Claims claims(String jwt) {
         JwtParser build = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))

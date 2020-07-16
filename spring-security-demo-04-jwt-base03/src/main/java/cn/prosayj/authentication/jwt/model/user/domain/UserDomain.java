@@ -30,4 +30,8 @@ public class UserDomain {
      */
     private String role;
 
+    public UserDomain(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 }

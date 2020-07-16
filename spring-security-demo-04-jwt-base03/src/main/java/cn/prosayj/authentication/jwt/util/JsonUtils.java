@@ -9,13 +9,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * JsonUtils
@@ -32,8 +34,9 @@ public class JsonUtils {
         //反序列时，忽略未知字段
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule module = new SimpleModule();
-        // add SimpleGrantedAuthorityFiledDeserializer to Jackson.
-        module.addDeserializer(SimpleGrantedAuthority.class, new SimpleGrantedAuthorityFiledDeserializer());
+        // add GrantedAuthorityFiledDeserializer to Jackson.
+        module.addDeserializer(Set.class, new GrantedAuthorityFiledDeserializer());
+//        module.addDeserializer(HashSet.class, new GrantedAuthorityFiledDeserializer());
         objectMapper.registerModule(module);
 
     }

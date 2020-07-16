@@ -35,6 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("usernamePasswordAuthenticationProvider")
     private AuthenticationProvider usernamePasswordAuthenticationProvider;
 
+    @Autowired
+    private CustomSimpleUrlAuthenticationSuccessHandler customSimpleUrlAuthenticationSuccessHandler;
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -63,8 +68,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 让校验 Token 的过滤器在身份认证过滤器之后
                 .addFilterAfter(new JWTAuthorizationFilter(), JWTAuthenticationFilter.class)
                 // 不需要 Session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //.and().formLogin().disable();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().formLogin()
+                .successHandler(customSimpleUrlAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler);
+                //.disable();
 
     }
 

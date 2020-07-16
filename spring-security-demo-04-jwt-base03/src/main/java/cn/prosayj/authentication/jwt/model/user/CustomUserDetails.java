@@ -6,6 +6,7 @@
 package cn.prosayj.authentication.jwt.model.user;
 
 import cn.prosayj.authentication.jwt.model.user.domain.UserDomain;
+import cn.prosayj.authentication.jwt.util.GrantedAuthorityFiledDeserializer;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +40,11 @@ public class CustomUserDetails implements UserDetails {
      */
     private Set<GrantedAuthority> authorities;
 
+
+    /**
+     * default Constructor for jackson Deserialization
+     * {@link GrantedAuthorityFiledDeserializer}
+     */
     public CustomUserDetails() {
         super();
     }

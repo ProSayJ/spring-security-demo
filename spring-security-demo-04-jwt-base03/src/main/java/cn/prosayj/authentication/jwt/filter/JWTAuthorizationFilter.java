@@ -9,6 +9,7 @@ import cn.prosayj.authentication.jwt.model.user.CustomUserDetails;
 import cn.prosayj.authentication.jwt.model.response.ResponseWriter;
 import cn.prosayj.authentication.jwt.model.response.RestBody;
 import cn.prosayj.authentication.jwt.util.JWTUtils;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,7 +44,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader(JWTUtils.TOKEN_HEADER);
         log.debug("raw-access-token: {}", authorization);
 
-        // Branch A: 如果请求头中没有 Authorization
+        // Branch A: 如果请求头中没有 key  Authorization
         if (StringUtils.isEmpty(authorization)) {
             // 白名单放行
             if (WHITE_LIST.contains(request.getRequestURI())) {
@@ -62,11 +63,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         final String jsonWebToken = authorization.replace(JWTUtils.TOKEN_PREFIX, "");
 
         // TODO 用 Redis 的过期控制 token, 而不用 jwt 的 Expiration
-        // if (JWTUtils.hasExpired(jsonWebToken)) {
-        //     response.getWriter().write("access-token 已过期, 请重新登陆!");
-        // }
+        try {
+            JWTUtils.hasExpired(jsonWebToken);
+        } catch (ExpiredJwtException e) {
+            log.error("access-token 已过期", e);
+            ResponseWriter
+                    .responseAccessDeniedJsonWriter(
+                            response,
+                            RestBody.failure(HttpServletResponse.SC_UNAUTHORIZED, "access-token 已过期, 请重新登陆! " + e.getMessage()));
+        }
         // TODO 每一次携带正确 token 的访问, 都刷新 Redis 的过期时间
-
         CustomUserDetails customUserDetails = JWTUtils.userDetails(jsonWebToken);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(

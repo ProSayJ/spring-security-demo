@@ -34,7 +34,7 @@ public class UserDomainMapperImpl implements UserDomainMapper {
     public void initDbStorage() throws InterruptedException {
         log.info("local storage db user init......start~~~~");
         userDb = new ArrayList<UserDomain>() {{
-            add(new UserDomain("zs", passwordEncoder.encode("zs"), "ADMIN,USER"));
+            add(new UserDomain("zs", passwordEncoder.encode("zs"), "USER"));
 
         }};
         Thread.sleep(2 * 1000);

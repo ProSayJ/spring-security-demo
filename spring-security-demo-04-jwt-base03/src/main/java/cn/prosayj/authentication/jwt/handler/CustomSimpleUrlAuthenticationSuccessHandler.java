@@ -33,7 +33,6 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.debug("自定义 SuccessHandler :: 登陆成功");
-       // ResponseWriter.responseSuccessJsonWriter(response, RestBody.ok("登录成功"));
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

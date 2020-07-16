@@ -5,12 +5,15 @@
 
 package cn.prosayj.authentication.jwt.model.response;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static cn.prosayj.authentication.jwt.constant.BaseConstant.DEFAULT_CHARACTER_SET;
 
 /**
  * ResponseWriter
@@ -24,7 +27,7 @@ public class ResponseWriter {
      * 认证成功的返回
      *
      * @param response response
-     * @param rest rest
+     * @param rest     rest
      * @throws IOException
      */
     public static void responseSuccessJsonWriter(HttpServletResponse response, Rest rest) throws IOException {
@@ -42,19 +45,23 @@ public class ResponseWriter {
     /**
      * 认证成功的返回
      *
-     * @param response
-     * @param rest
-     * @throws IOException
+     * @param response response
+     * @param rest     rest
      */
-    public static void responseAccessDeniedJsonWriter(HttpServletResponse response, Rest rest) throws IOException {
+    public static void responseAccessDeniedJsonWriter(HttpServletResponse response, Rest rest) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(DEFAULT_CHARACTER_SET);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ObjectMapper objectMapper = new ObjectMapper();
-        String resBody = objectMapper.writeValueAsString(rest);
-        PrintWriter printWriter = response.getWriter();
-        printWriter.print(resBody);
-        printWriter.flush();
-        printWriter.close();
+        try {
+            String resBody = objectMapper.writeValueAsString(rest);
+            PrintWriter printWriter = response.getWriter();
+            printWriter.print(resBody);
+            printWriter.flush();
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
