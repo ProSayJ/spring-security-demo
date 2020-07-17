@@ -88,7 +88,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ResponseWriter
                 .responseAccessDeniedJsonWriter(
                         response,
-                        RestBody.failure(HttpServletResponse.SC_ACCEPTED, "登录成功；欢迎你：" + customUserDetails.getName()));
+                        RestBody.okData(HttpServletResponse.SC_ACCEPTED, "登录成功；欢迎你：" + customUserDetails.getName()));
     }
 
     /**

@@ -47,7 +47,7 @@ public class AuthController {
         UserDomain user = new UserDomain();
         user.setName(registerUser.get("name"));
         user.setPassword(passwordEncoder.encode(registerUser.get("password")));
-        user.setRole("ADMIN");
+        user.setRole("USER");
         log.debug("AuthController: {}", userDomainMapper.save(user));
         return user;
     }
