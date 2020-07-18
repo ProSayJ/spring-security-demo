@@ -3,9 +3,10 @@
  * All rights reserved.
  */
 
-package cn.prosayj.authentication.jwt.util;
+package cn.prosayj.authentication.jwt.util.jwt;
 
 import cn.prosayj.authentication.jwt.model.user.CustomUserDetails;
+import cn.prosayj.authentication.jwt.util.json.JsonUtils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
@@ -18,14 +19,6 @@ import java.util.Objects;
 
 /**
  * JWT 工具类
- * 构建 jwt payload
- * <p>
- * https://jwt.io/
- * <p>
- * JWT的构成部分
- * 头部（header) 声明类型以及加密算法 如** {"alg":"HS256","typ":"JWT"}  用Base64进行了处理
- * 载荷（payload) 携带一些用户身份信息，用户id，颁发机构，颁发时间，过期时间等。用Base64进行了处理。这一段其实是明文，所以一定不要放敏感信息。
- * 签证（signature) 签名信息，使用了自定义的一个密钥然后加密后的结果，目的就是为了保证签名的信息没有被别人改过，这个一般是让服务器验证的。
  *
  * @author yangjian@bubi.cn
  * @date 2020-07-14 下午 06:23
@@ -66,12 +59,11 @@ public class JWTUtils {
      * @return String
      */
     public static String create(String username, boolean rememberMe, CustomUserDetails userDetails) {
-        //  构建 jwt payload
         Map<String, Object> map = JsonUtils.toMap(userDetails);
         return Jwts.builder()
                 // [Attention] 要先 setClaims(初始化底层 map) 再设置 subject, 如果 subject 先设置, 会被覆盖.
                 .setClaims(map)
-                // 主题 jwt所面向的用户
+                // 主题
                 .setSubject(username)
                 // TODO 过期时间交由 Redis 处理
                 .setExpiration(

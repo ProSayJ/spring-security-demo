@@ -1,10 +1,10 @@
-package cn.prosayj.authentication;
+package cn.prosayj.hello;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringSecurityDemoApplicationTests {
+class HelloWorld_02Tests {
 
     @Test
     void contextLoads() {
