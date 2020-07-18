@@ -1,7 +1,7 @@
 package cn.prosayj.authentication.jdbc.util;
 
 import cn.prosayj.authentication.CsrfAuthentication_05;
-import cn.prosayj.authentication.jwt.util.redis.RedisUtil;
+import cn.prosayj.authentication.csrf.util.redis.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

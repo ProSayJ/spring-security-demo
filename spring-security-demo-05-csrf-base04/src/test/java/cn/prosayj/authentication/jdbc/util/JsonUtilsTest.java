@@ -5,8 +5,8 @@
 
 package cn.prosayj.authentication.jdbc.util;
 
-import cn.prosayj.authentication.jwt.model.user.CustomUserDetails;
-import cn.prosayj.authentication.jwt.util.json.JsonUtils;
+import cn.prosayj.authentication.csrf.model.user.CustomUserDetails;
+import cn.prosayj.authentication.csrf.util.json.JsonUtils;
 import org.junit.Test;
 
 /**
